@@ -29,7 +29,9 @@ pipeline
       {
           steps
           {
-             sh 'docker build -t tomcatsamplewebapp:${env.Build_ID}  . '
+             sh "pwd"
+             sh "ls -a"
+             sh "docker build . java-tomcat-sample-docker -t tomcatsamplewebapp:${env.Build_ID}"
           }         
       }
   }
