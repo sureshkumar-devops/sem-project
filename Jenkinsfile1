@@ -1,0 +1,44 @@
+pipeline
+{
+  agent any
+  triggers {
+        pollSCM '* * * * *'
+    }
+  stages
+  {
+      stage('Checkout SCM')
+      {
+          steps
+          {
+              git 'https://github.com/sureshkumar-devops/sem-project.git'
+          }
+      }
+      stage('Build')
+      {
+          steps
+          {
+            sh 'mvn clean package'
+          }
+          post
+          {
+              always
+              {
+                 echo 'Artifacts..packing'
+                 archiveArtifacts artifacts: '**/*.war'            
+              }
+          }
+      }
+      stage('Deploy into Staging Env')
+      {
+          steps
+          {
+              timeout(time:5, unit:'DAYS')
+              {
+                  input message: 'Approve Producation Deployment'
+              }
+              build job: 'DeployTesting'              
+          }
+         
+      }
+  }
+}
