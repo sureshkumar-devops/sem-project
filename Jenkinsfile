@@ -29,7 +29,7 @@ pipeline
       {
           steps
           {
-             sh 'docker build -t --name tomcatsamplewebapp:${env.Build_ID}  . '
+             sh 'docker build -t tomcatsamplewebapp:${env.Build_ID}  . '
           }         
       }
   }
